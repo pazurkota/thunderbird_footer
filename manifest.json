@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "HTML Footer",
+  "version": "1.1",
+  "description": "Automatically adds editable HTML footer (Markdown) to every new mail",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "stopka-html@twojadomena.pl",
+      "strict_min_version": "115.0"
+    }
+  },
+  "permissions": [
+    "compose",
+    "storage"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}
