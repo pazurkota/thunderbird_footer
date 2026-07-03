@@ -1,8 +1,8 @@
-const HTML_FOOTER = `
-  <div style="font-family: Arial, sans-serif; font-size: 13px; color: #333; margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">
-    <strong>pazurkota</strong><br>
-    hello!<br>
-    <a href="mailto:test@example.com">test@example.com</a>
+const FOOTER_MARKER = "footer-marker-id";
+
+const DEFAULT_HTML = `
+  <div style="font-family: Arial, sans-serif; font-size: 13px; color: #333;">
+    <strong>pazurkota</strong><br>hello world!
   </div>
 `;
 
@@ -11,15 +11,16 @@ browser.compose.onBeforeSend.addListener(async (tab, details) => {
         return {};
     }
 
-    if (details.body.includes("stopka-marker-id")) {
+    if (details.body.includes(FOOTER_MARKER)) {
         return {};
     }
 
+    const stored = await browser.storage.local.get("footerHtml");
+    const footerHtml = stored.footerHtml ?? DEFAULT_HTML;
+
     return {
         details: {
-            body: details.body + `<div id="stopka-marker-id">${HTML_FOOTER}</div>`
+            body: `${details.body}<div id="${FOOTER_MARKER}" style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">${footerHtml}</div>`
         }
     };
 });
-
-browser.compose.setComposeDetails(tab.id, {isPlainText: false})
